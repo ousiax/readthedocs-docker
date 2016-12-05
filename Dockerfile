@@ -1,7 +1,8 @@
 FROM debian:jessie
 MAINTAINER qqbuby <qqbuby@gmail.com>
 
-ENV PIP_OPTIONS=-i\ https://pypi.douban.com/simple\ --timeout\ 60
+# ENV PIP_OPTIONS=-i\ https://pypi.douban.com/simple\ --timeout\ 60
+ENV PIP_OPTIONS=-i\ https://pypi.python.org/simple\ --timeout\ 60
 
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
 COPY ./sources.list.jessie /etc/apt/sources.list
