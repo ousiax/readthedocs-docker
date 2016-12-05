@@ -8,9 +8,7 @@ RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
 COPY ./sources.list.jessie /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y \
-    build-essential \
     python-dev \
-    python-setuptools \
     python-pip \
     libxml2-dev \
     libxslt1-dev \
