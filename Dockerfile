@@ -1,4 +1,4 @@
-FROM debian
+FROM debian:jessie
 MAINTAINER qqbuby <qqbuby@gmail.com>
 
 ENV PIP_OPTIONS=-i\ https://pypi.douban.com/simple\ --timeout\ 60
@@ -52,4 +52,5 @@ RUN . /var/readthedocs/bin/activate && \
 # Finally, you're ready to start the webserver: python manage.py runserver
 
 EXPOSE 8000
+
 CMD . /var/readthedocs/bin/activate && python manage.py runserver 0.0.0.0:8000
