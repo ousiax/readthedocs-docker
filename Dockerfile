@@ -2,13 +2,12 @@ FROM debian:jessie
 MAINTAINER qqbuby <qqbuby@gmail.com>
 
 ENV RTD_COMMIT ed4f90e4
-
 ENV PYTHON_PIP_VERSION 9.0.1
-ENV PIP_DEFAULT_TIMEOUT 60
-# ENV PIP_INDEX_URL https://mirrors.ustc.edu.cn/pypi/web/simple
+ENV PIP_TIMEOUT 60
+#ENV PIP_INDEX_URL https://mirrors.ustc.edu.cn/pypi/web/simple
 
-# RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak \
-#     && echo 'deb http://mirrors.163.com/debian stable main contrib non-free' > /etc/apt/sources.list
+#RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak \
+#    && echo 'deb http://mirrors.163.com/debian stable main contrib non-free' > /etc/apt/sources.list
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -18,10 +17,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
     libxml2-dev \
     libxslt1-dev \
     zlib1g-dev \
-    git \
-    && DEBIAN_FRONTEND=noninteractive apt-get -y autoremove
+    curl \
+    git
 
-RUN pip install --upgrade --force-reinstall "pip==$PYTHON_PIP_VERSION" \
+RUN pip install -U  "pip==$PYTHON_PIP_VERSION" \
     && rm -rf ~/.cache
 
 RUN pip --no-cache-dir install virtualenv
@@ -36,9 +35,9 @@ RUN mkdir /var/readthedocs \
 RUN mkdir /var/readthedocs/checkouts
 WORKDIR /var/readthedocs/checkouts
 
-RUN git clone https://github.com/rtfd/readthedocs.org.git readthedocs
+RUN curl -ksSL https://github.com/rtfd/readthedocs.org/archive/$RTD_COMMIT.tar.gz | tar xz \
+    && mv readthedocs.org-${RTD_COMMIT}* readthedocs
 WORKDIR /var/readthedocs/checkouts/readthedocs
-RUN git reset ${RTD_COMMIT} --hard
 
 # Install the depedencies using pip (included inside of virtualenv)
 RUN . /var/readthedocs/bin/activate \
