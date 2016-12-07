@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libxslt1-dev \
         python-dev \
         python-pip \
+        python-setuptools \
     && rm -rf /var/lib/apt/lists/*
     
 # Read the docs
