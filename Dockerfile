@@ -1,10 +1,9 @@
 FROM debian:jessie
 MAINTAINER qqbuby <qqbuby@gmail.com>
 
-ENV RTD_BASE_DIR=/var \
-    RTD_REPO_DIR=${RTD_BASE_DIR}/readthedocs \
+ENV RTD_REPO_DIR=/var/readthedocs \
     RTD_COMMIT=ed4f90e4
-    
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         curl \
@@ -19,10 +18,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     
 # Read the docs
 # Creat a folder here, and clone the repository
-RUN mkdir -p ${RTD_BASE_DIR}
-WORKDIR ${RTD_BASE_DIR}
-RUN curl -ksSL https://github.com/rtfd/readthedocs.org/archive/$RTD_COMMIT.tar.gz | tar xz \
-    && mv readthedocs.org-${RTD_COMMIT}* ${RTD_REPO_DIR}
+RUN curl -ksSL https://github.com/rtfd/readthedocs.org/archive/$RTD_COMMIT.tar.gz | tar xz -C /tmp/ \
+    && mkdir -p ${RTD_REPO_DIR} \
+    && mv /tmp/readthedocs.org-${RTD_COMMIT}*/* ${RTD_REPO_DIR}
 
 # Install the depedencies using pip (included inside of virtualenv),
 # then please create a super account for Django,
