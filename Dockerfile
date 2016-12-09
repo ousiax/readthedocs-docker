@@ -1,21 +1,17 @@
 FROM debian:jessie
 MAINTAINER qqbuby <qqbuby@gmail.com>
 
-ENV PIP_TIMEOUT=60 \
-#    PIP_INDEX_URL=https://pypi.douban.com/simple \
-    RTD_BASE_DIR=/var \
+ENV RTD_BASE_DIR=/var \
     RTD_REPO_DIR=${RTD_BASE_DIR}/readthedocs \
     RTD_COMMIT=ed4f90e4
     
-# RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak \
-#    && echo 'deb http://mirrors.163.com/debian stable main contrib non-free' > /etc/apt/sources.list
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         curl \
         git \
         libxml2-dev \
         libxslt1-dev \
+        libz-dev \
         python-dev \
         python-pip \
         python-setuptools \
@@ -34,7 +30,7 @@ RUN curl -ksSL https://github.com/rtfd/readthedocs.org/archive/$RTD_COMMIT.tar.g
 # then let's properly generate the static assets.
 WORKDIR ${RTD_REPO_DIR}
 RUN pip install -r requirements.txt \
-    && rm -rf ~/.cache \
+    && rm -rf ~/.cache /tmp/pip_build_root \
     && python ./manage.py migrate \
     && python -c "import os;import sys;os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'readthedocs.settings.dev');sys.path.append(os.getcwd());from django.contrib.auth.models import User;admin = User.objects.create_user('admin','','admin');admin.is_superuser=True;admin.is_staff=True;admin.save();test = User.objects.create_user('test','','test');test.is_staff=True;test.save();" \
     && python ./manage.py collectstatic --noinput
