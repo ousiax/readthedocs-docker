@@ -20,7 +20,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Creat a folder here, and clone the repository
 RUN curl -ksSL https://github.com/rtfd/readthedocs.org/archive/$RTD_COMMIT.tar.gz | tar xz -C /tmp/ \
     && mkdir -p ${RTD_REPO_DIR} \
-    && mv /tmp/readthedocs.org-${RTD_COMMIT}*/* /tmp/readthedocs.org-${RTD_COMMIT}*/.??* ${RTD_REPO_DIR}
+    && mv /tmp/readthedocs.org-${RTD_COMMIT}*/{*,.??*} ${RTD_REPO_DIR} \
+    && rm -rf /tmp/readthedocs.org-${RTD_COMMIT}*
 
 # Install the depedencies using pip (included inside of virtualenv),
 # then please create a super account for Django,
