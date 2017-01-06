@@ -34,6 +34,8 @@ RUN pip install -r requirements.txt \
     && python -c "import os;import sys;os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'readthedocs.settings.dev');sys.path.append(os.getcwd());from django.contrib.auth.models import User;admin = User.objects.create_user('admin','','admin');admin.is_superuser=True;admin.is_staff=True;admin.save();test = User.objects.create_user('test','','test');test.is_staff=True;test.save();" \
     && python ./manage.py collectstatic --noinput
 
+VOLUME ${RTD_REPO_DIR}
+
 # Finally, you're ready to start the webserver: python manage.py runserver
 EXPOSE 8000
 
