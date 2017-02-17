@@ -26,9 +26,9 @@ The *master* branch is a basic docker image that responds to the `qqbuby/readthe
      
  The *uwsgi* branch is a docker image that uses to set up the RTD with uWSGI, and responds to the `qqbuby/readthedocs:uwsgi`.
 
- For more about ***uWSGI***, please refer to [The uWSGI project](https://uwsgi-docs.readthedocs.io/en/latest/).
+ For more information about ***uWSGI***, please refer to [The uWSGI project](https://uwsgi-docs.readthedocs.io/en/latest/).
 
- For more about how to set up Django so that it works nicely with uWSGI and nginx, pleae refer to [Setting up Django and your web server with uWSGI and nginx](http://uwsgi-docs.readthedocs.io/en/latest/tutorials/Django_and_nginx.html). 
+ For more information about how to set up Django so that it works nicely with uWSGI and nginx, pleae refer to [Setting up Django and your web server with uWSGI and nginx](http://uwsgi-docs.readthedocs.io/en/latest/tutorials/Django_and_nginx.html). 
  
  - `USER readthedocs`
  - `EXPOSE 8191 8192`
