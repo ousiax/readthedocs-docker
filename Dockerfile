@@ -5,6 +5,7 @@ ENV RTD_REPO_DIR=/var/readthedocs \
     RTD_COMMIT=ec23bc9c9d0eef0821a165d11a3ce75f1f39d59c
 
 # ADD ./sources.list /etc/apt/sources.list
+# ADD ./pip.conf ~/.pip/pip.conf
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
@@ -31,9 +32,14 @@ WORKDIR ${RTD_REPO_DIR}
 RUN pip install -r requirements.txt \
     && rm -rf ~/.cache /tmp/pip_build_root
 
-RUN python ./manage.py migrate \
-    && python -c "import os;import sys;os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'readthedocs.settings.dev');sys.path.append(os.getcwd());from django.contrib.auth.models import User;admin = User.objects.create_user('admin','','admin');admin.is_superuser=True;admin.is_staff=True;admin.save();test = User.objects.create_user('test','','test');test.is_staff=True;test.save();" \
-    && python ./manage.py collectstatic --noinput
+RUN python ./manage.py migrate
+
+ADD ./init.py .
+RUN python init.py \
+
+RUN python ./manage.py collectstatic --noinput
+
+VOLUME ${RTD_REPO_DIR}
 
 EXPOSE 8000
 
