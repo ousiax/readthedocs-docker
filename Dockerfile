@@ -2,7 +2,7 @@ FROM debian:jessie
 MAINTAINER qqbuby <qqbuby@gmail.com>
 
 ENV RTD_REPO_DIR=/var/readthedocs \
-    RTD_COMMIT=2a54e3adf487412f58a0a4473c0a52250b15ff18
+    RTD_COMMIT=ec23bc9c9d0eef0821a165d11a3ce75f1f39d59c
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
