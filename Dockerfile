@@ -1,4 +1,4 @@
-FROM debian:stretch-slim
+FROM debian:jessie-slim
 MAINTAINER qqbuby <qqbuby@gmail.com>
 
 ENV RTD_REPO_DIR=/var/readthedocs \
@@ -13,8 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libxml2-dev \
         libxslt1-dev \
         libz-dev \
-        python3-dev \
-        python3-pip \
+        python-dev \
+        python-pip \
         python-setuptools \
         texlive-latex-recommended \
         texlive-fonts-recommended \
@@ -27,12 +27,14 @@ RUN curl -ksSL https://github.com/rtfd/readthedocs.org/archive/$RTD_COMMIT.tar.g
     && rm -rf /tmp/readthedocs.org-${RTD_COMMIT}*
 
 WORKDIR ${RTD_REPO_DIR}
-RUN pip3 install -r requirements.txt \
-    && rm -rf ~/.cache /tmp/pip_build_root \
-    && python3 ./manage.py migrate \
-    && python3 -c "import os;import sys;os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'readthedocs.settings.dev');sys.path.append(os.getcwd());from django.contrib.auth.models import User;admin = User.objects.create_user('admin','','admin');admin.is_superuser=True;admin.is_staff=True;admin.save();test = User.objects.create_user('test','','test');test.is_staff=True;test.save();" \
-    && python3 ./manage.py collectstatic --noinput
+
+RUN pip install -r requirements.txt \
+    && rm -rf ~/.cache /tmp/pip_build_root
+
+RUN python ./manage.py migrate \
+    && python -c "import os;import sys;os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'readthedocs.settings.dev');sys.path.append(os.getcwd());from django.contrib.auth.models import User;admin = User.objects.create_user('admin','','admin');admin.is_superuser=True;admin.is_staff=True;admin.save();test = User.objects.create_user('test','','test');test.is_staff=True;test.save();" \
+    && python ./manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-CMD ["python3", "./manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "./manage.py", "runserver", "0.0.0.0:8000"]
