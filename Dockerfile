@@ -1,4 +1,4 @@
-FROM debian:jessie-slim
+FROM debian:stretch-slim
 MAINTAINER qqbuby <qqbuby@gmail.com>
 
 ENV RTD_REPO_DIR=/var/readthedocs \
