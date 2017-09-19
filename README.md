@@ -12,5 +12,3 @@ The basic docker image that responds to the `qqbuby/readthedocs:latest`.
 - ENV:
 
     `RTD_REPO_DIR＝/var/readthedocs`
-    
-    `RTD_COMMIT=2a54e3adf487412f58a0a4473c0a52250b15ff18`
