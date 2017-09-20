@@ -29,7 +29,8 @@ RUN curl -ksSL https://github.com/rtfd/readthedocs.org/archive/$RTD_COMMIT.tar.g
 
 WORKDIR ${RTD_REPO_DIR}
 
-RUN pip install -r requirements.txt \
+RUN pip install wheel \
+    && pip install -r requirements.txt \
     && rm -rf ~/.cache /tmp/pip_build_root
 
 RUN python ./manage.py migrate
