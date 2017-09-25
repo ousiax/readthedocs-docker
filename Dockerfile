@@ -37,7 +37,7 @@ RUN pip install wheel \
 RUN python ./manage.py migrate
 
 ADD ./init.py .
-RUN python init.py \
+RUN python init.py
 
 RUN python ./manage.py collectstatic --noinput
 
