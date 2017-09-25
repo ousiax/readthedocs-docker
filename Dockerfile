@@ -31,6 +31,7 @@ WORKDIR ${RTD_REPO_DIR}
 
 RUN pip install wheel \
     && pip install -r requirements.txt \
+    && pip install --upgrade pip \
     && rm -rf ~/.cache /tmp/pip_build_root
 
 RUN python ./manage.py migrate
